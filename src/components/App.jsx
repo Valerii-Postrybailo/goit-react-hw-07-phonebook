@@ -54,7 +54,6 @@ export class App extends React.Component {
 
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contactId !== contact.id)
-      // localStorage.removeItem(contactName)),
     }))
   }
 
@@ -67,15 +66,12 @@ export class App extends React.Component {
     )
   }
 
- 
 
   componentDidMount() {
     const contactData = localStorage.getItem("data")
     const parsedUserContact = JSON.parse(contactData)
     console.log(parsedUserContact)
 
-    // this.setState({contacts:parsedUserContact})
-    // console.log(this.setState.contacts)
     if(parsedUserContact !== null){
       this.setState({contacts:parsedUserContact})
     }
