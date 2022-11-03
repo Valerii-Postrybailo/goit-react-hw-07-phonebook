@@ -17,6 +17,15 @@ export class App extends React.Component {
     filter: '',
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+      console.log("Updata")
+      if (this.state.contacts !== prevState.contacts){
+        localStorage.setItem("data", JSON.stringify(this.state.contacts))
+
+      }
+    
+  }
+
   handleInputChange = event => {
     this.setState({
       [event.target.name]: event.target.value
@@ -58,19 +67,19 @@ export class App extends React.Component {
     )
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if(this.state.contacts !== prevState.contacts){
-      console.log("Updata")
-      localStorage.setItem("data", JSON.stringify(this.state.contacts))
-    }
-  }
+ 
 
   componentDidMount() {
     const contactData = localStorage.getItem("data")
     const parsedUserContact = JSON.parse(contactData)
     console.log(parsedUserContact)
 
-    this.setState({contacts: parsedUserContact})
+    // this.setState({contacts:parsedUserContact})
+    // console.log(this.setState.contacts)
+    if(parsedUserContact !== null){
+      this.setState({contacts:parsedUserContact})
+    }
+    
   }
 
   render(){
