@@ -29,13 +29,10 @@ export const App = () => {
   //   filter: '',
   // }
 
-
-
   // componentDidUpdate(prevProps, prevState, snapshot) {
   //     console.log("Updata")
   //     if (this.state.contacts !== prevState.contacts){
   //       localStorage.setItem("data", JSON.stringify(this.state.contacts))
-
   //     }
   // }
 
@@ -55,6 +52,8 @@ export const App = () => {
     checkContact 
       ? alert(`${data.name} is already in the contacts`)
       : setContact( [...contacts, data])
+
+      // onFilterContact()
   }
 
   const onRemoveContact = (contactId) => {
@@ -72,18 +71,16 @@ export const App = () => {
   }
 
   useEffect(() => {
-    const contactData = localStorage.getItem("data")
-    const parsedUserContact = JSON.parse(contactData)
-    console.log(parsedUserContact)
-      setContact(parsedUserContact)
-   
-  }, []);
-
-  useEffect(() => {
-        localStorage.setItem("data", JSON.stringify(contacts))
+    localStorage.setItem("data", JSON.stringify(contacts))
   }, [contacts]);
 
 
+  useEffect(() => {
+    const contactData = localStorage.getItem("data")
+    const parsedUserContact = JSON.parse(contactData)
+    // console.log(parsedUserContact)
+    setContact(parsedUserContact)
+  }, []);
 
   // componentDidMount() {
   //   const contactData = localStorage.getItem("data")
