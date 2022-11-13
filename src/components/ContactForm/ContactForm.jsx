@@ -28,13 +28,13 @@ export default function ContactForm ({ onSubmit }){
 
   const reset = () => {
     setName("");
-    setNumber("")
+    setNumber("");
     
   }
 
   const onSubmitChange = evt => {
     evt.preventDefault();
-    onSubmit({name,number});
+    onSubmit({name, number});
     reset();
   }
 

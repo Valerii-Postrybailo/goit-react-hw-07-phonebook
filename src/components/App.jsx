@@ -5,9 +5,10 @@ import ContactList from "./ContactList/ContactList";
 import ContactForm from "./ContactForm/ContactForm";
 import { nanoid } from 'nanoid'
 
-export const App = () => {
+export default function App() {
   
   const [contacts, setContact] = useState(
+    
     [
       // {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
       // {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
@@ -70,17 +71,21 @@ export const App = () => {
     )
   }
 
-  useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(contacts))
-  }, [contacts]);
-
 
   useEffect(() => {
     const contactData = localStorage.getItem("data")
     const parsedUserContact = JSON.parse(contactData)
-    // console.log(parsedUserContact)
+    console.log(parsedUserContact)
     setContact(parsedUserContact)
   }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(contacts))
+    console.log(contacts)
+  }, [contacts]);
+
+
 
   // componentDidMount() {
   //   const contactData = localStorage.getItem("data")
