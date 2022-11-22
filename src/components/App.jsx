@@ -36,7 +36,9 @@ export default function App() {
 
             <ContactForm />
 
-            <h2>Contacts</h2>
+            <h2 style={{textAlign: "center"}}>
+              Contacts
+            </h2>
 
             <Filter formSubmitHandler={onInputChange} filter={filter} />
             
