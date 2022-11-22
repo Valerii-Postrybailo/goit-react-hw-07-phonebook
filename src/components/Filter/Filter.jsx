@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import css from './Filter.module.css'
 
-const Filter = ({filter, formSubmitHandler}) => (
+export const Filter = ({filter, formSubmitHandler}) => (
   <label className = {css.form_label}>
     Find contacts by name
     <input onChange={formSubmitHandler} 
@@ -17,4 +17,4 @@ Filter.propTypes = {
   filter: PropTypes.string.isRequired,
 };
 
-export default Filter
+
