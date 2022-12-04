@@ -1,24 +1,44 @@
 import css from './ContactList.module.css'
+import { useEffect } from 'react';
 
-import { remove } from '../../redux/contactsSlice';
+import { deleteContacts } from '../../redux/operations';
+import { fetchContacts } from '../../redux/operations';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../Loader/Loader';
+import { nanoid } from 'nanoid';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.items);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(state => state.contactsSlice.contacts.items);
+  const filter =  useSelector(
+    state => state.contactsSlice.contacts.filter.value
+  );
+
+  const isLoading = useSelector(state => state.contactsSlice.isLoading);
+  const error = useSelector(state => state.contactsSlice.error);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const normalizedFilter = filter.toLowerCase();
   const visibleContacts = contacts.filter(contact =>
+    
     contact.name.toLowerCase().includes(normalizedFilter)
+
+    
   );
 
   return(
     <ul>
-      {visibleContacts.map(({id,name,number}) => (
-        <li key = {id}>
-          {name}: {number}
-            <button type="button" onClick = {() => dispatch(remove(id))} className={css.list_btn}>
+      {error && <li>{error}</li>}
+
+      {isLoading && <Loader/>} 
+
+      {visibleContacts.map(({id,name,phone}) => (
+        <li key = {nanoid()}>
+          {name}: {phone}
+            <button type="button" onClick = {() => dispatch(deleteContacts(id))} className={css.list_btn}>
               Delete
             </button>
         </li>

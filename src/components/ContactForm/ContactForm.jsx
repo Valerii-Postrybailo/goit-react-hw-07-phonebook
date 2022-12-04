@@ -1,58 +1,54 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { add } from '../../redux/contactsSlice';
+import { addContacts } from '../../redux/operations';
 
-
-export default function ContactForm ({ onSubmit }){
+export default function ContactForm (){
 
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.items);
+  const contacts = useSelector(state => state.contactsSlice.contacts.items);
 
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const [id, setId] = useState('');
+  const [phone, setPhone] = useState('');
 
   const contactNameId = nanoid();
   const phoneNumberId = nanoid();
 
-  const onNameInputChange = evt => {
-    setName(evt.target.value);
-  };
+  const handleInputChange = e => {
+    const { name, value } = e.target;
 
-  const onNumberInputChange = evt => {
-    setNumber(evt.target.value);
+    if (name === 'name') {
+      return setName(value);
+    } else if (name === 'number') {
+      return setPhone(value);
+    }
   };
 
   const reset = () => {
     setName('');
-    setNumber('');
-  };
-
-  useEffect(() => {
-    return setId(nanoid());
-  }, [name, number]);
-
-  const addContact = ({ name, number }) => {
-    const newContact = { id: nanoid(), name, number };
-    const checkContact = contacts.find(
-      contact => contact.name === newContact.name
-    );
-
-    checkContact
-      ? alert(`${name} is already in the contacts`)
-      : dispatch(add({ name, number, id }));
+    setPhone('');
   };
 
   const onSubmitChange = evt => {
     evt.preventDefault();
-    addContact({ name, number });
+    let data = { name, phone };
+    let findName = contacts.find(
+      item => item.name.toLowerCase() === data.name.toLowerCase()
+    );
+
+    if (findName) {
+      return alert(`${data.name} is already in contact`);
+    } else {
+      dispatch(addContacts(data));
+    }
+
     reset();
   };
 
+  const isAdded = useSelector(state => state.contactsSlice.isAdded);
     return(
       <form onSubmit={onSubmitChange}>
         <label>
@@ -61,7 +57,7 @@ export default function ContactForm ({ onSubmit }){
               type="text"
               id={contactNameId}
               value={name}
-              onChange={onNameInputChange}
+              onChange={handleInputChange}
               name="name"
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
@@ -75,19 +71,16 @@ export default function ContactForm ({ onSubmit }){
               type="tel"
               name="number"
               id={phoneNumberId}
-              value={number}
-              onChange={onNumberInputChange}
+              value={phone}
+              onChange={handleInputChange}
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
             />
         </label>
 
-          <button type="submit">Add contact</button>
+          <button type="submit" disabled={isAdded}>Add contact</button>
 
       </form>
     )
 }
-
-
-

@@ -4,16 +4,17 @@ import {ContactList} from "./ContactList/ContactList";
 import ContactForm from "./ContactForm/ContactForm";
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setStatusFilter } from '../redux/filterSlice';
+import { setFilter } from '../redux/operations';
 
 
 export default function App() {
 
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter);
+  // const filter = useSelector(state => state.filter);
+  const filter = useSelector(state => state.contactsSlice.contacts.filter.value);
 
   const onInputChange = evt => {
-    dispatch(setStatusFilter(evt.currentTarget.value));
+    dispatch(setFilter(evt.currentTarget.value));
   };
 
     return (
@@ -40,7 +41,7 @@ export default function App() {
               Contacts
             </h2>
 
-            <Filter formSubmitHandler={onInputChange} filter={filter} />
+            <Filter formSubmitHandler = {onInputChange} filter={filter} />
             
             <ContactList/>
           </div>
