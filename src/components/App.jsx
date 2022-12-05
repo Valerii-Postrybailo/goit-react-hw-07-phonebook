@@ -3,24 +3,11 @@ import {Filter} from "./Filter/Filter";
 import {ContactList} from "./ContactList/ContactList";
 import ContactForm from "./ContactForm/ContactForm";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from '../redux/operations';
-
-
 export default function App() {
-
-  const dispatch = useDispatch();
-  // const filter = useSelector(state => state.filter);
-  const filter = useSelector(state => state.contactsSlice.contacts.filter.value);
-
-  const onInputChange = evt => {
-    dispatch(setFilter(evt.currentTarget.value));
-  };
 
     return (
       <div
         style={{
-          height: '100vh',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -41,7 +28,7 @@ export default function App() {
               Contacts
             </h2>
 
-            <Filter formSubmitHandler = {onInputChange} filter={filter} />
+            <Filter/>
             
             <ContactList/>
           </div>
